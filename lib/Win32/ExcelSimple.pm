@@ -9,13 +9,12 @@ use Win32::OLE::NLS qw(:LOCALE :DATE);
 use Spreadsheet::Read;   #use cr2cell, cell2cr
 # ABSTRACT: a wrap for excel
 =head1 NAME
-:
 Win32::ExcelSimple - new Win32::ExcelSimple!
-Please Note!!! this module is based on CELL address!!!!
-you can use cr2cell, or cell2cr funcs to translate address easily. 
+Please Note this module is based on CELL address.
+you may use cr2cell, or cell2cr funcs to translate address easily. 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
@@ -23,7 +22,7 @@ use Exporter;
 our @ISA       = qw( Exporter );
 our @EXPORT    = qw( cell2cr cr2cell );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 sub new {
 	my ($class_name, $file_name) = @_;
     
@@ -81,15 +80,27 @@ use Win32::OLE::Variant;
 use Win32::OLE::NLS qw(:LOCALE :DATE);
 sub read{
 	my ($sheet_h, $x1,$y1, $x2, $y2) = @_;
+	if ($x1 == $x2 and $y1 == $y2) { 
+		return $$sheet_h->Cells($y1, $x1)->{Value};
+	}
 	my $address = Win32::ExcelSimple::cr2cell($x1,$y1) . ':' . Win32::ExcelSimple::cr2cell($x2, $y2);
-	my $data = $$sheet_h->Range($address)->{Value};
-	return ($x1 == $x2 or $y1 == $y2) ? @{$data} : $data;
+    my $data = $$sheet_h->Range($address)->{Value};
+	if ($x1 == $x2){
+	my @a =   map {@{$_}} @{$data};
+    return \@a;	
+	}
+	elsif ($y1 == $y2){
+		   return @{$data};
+	}
+	else{
+		return $data;
+	}
 }
 
 
 sub get_last_row{
 	my $sheet_h = shift;
-    return $$sheet_h->UsedRange->Find({What=>"*",
+    return ${$sheet_h}->UsedRange->Find({What=>"*",
     			SearchDirection=> xlPrevious,
     			SearchOrder=> xlByRows})->{Row};
 
@@ -108,15 +119,25 @@ sub read_cell{
 }
 sub write_cell{
     my ($sheet_h, $x, $y, $data) = @_;
-	return $$sheet_h->Cells($y, $x)->{Value} = $data;
+	my $address = Win32::ExcelSimple::cr2cell($x,$y);
+	return ${$sheet_h}->Range($address)->{Value} = $data;
 
 }
 sub write_row{
 	my ($sheet_h, $x1,$y1, $data) = @_;
-	my  $x2 = $x1+ (scalar @{$data});
+	my  $x2 = $x1+ $#{$data};
 	my  $y2 = $y1;
 	my $address = Win32::ExcelSimple::cr2cell($x1,$y1) . ':' . Win32::ExcelSimple::cr2cell($x2, $y2);
 	$$sheet_h->Range($address)->{Value} = [$data];
+}
+
+sub write_col{
+	my ($sheet_h, $x1,$y1, $data) = @_;
+	
+	for (@{$data}){
+	$$sheet_h->Cells($y1, $x1)->{Value} = $_;
+	$y1++;
+}
 }
 
 sub write{

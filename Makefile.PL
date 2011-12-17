@@ -20,7 +20,7 @@ my %WriteMakefileArgs = (
   'LICENSE' => 'perl',
   'NAME' => 'Win32::ExcelSimple',
   'PREREQ_PM' => {},
-  'VERSION' => '0.3',
+  'VERSION' => '0.4',
   'test' => {
     'TESTS' => 't/*.t'
   }

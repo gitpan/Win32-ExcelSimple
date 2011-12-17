@@ -13,6 +13,11 @@ my $es = Win32::ExcelSimple->new($abs_file);
 my $sheet_h = $es->open_sheet('Report');
    $sheet_h->write_cell(2,1, 'test');
 is($sheet_h->read_cell(2,1),  'test', "write string test to cell B1");
+$sheet_h->write_row(2,1, ['test','test1', 'test2', 'test3']);
+is_deeply($sheet_h->read(2,1, 5, 1),  ['test','test1', 'test2', 'test3'], "write row to from B1");
+$sheet_h->write_col(2,1,['aaa','bbb','ccc']);
+my $read = $sheet_h->read(2,1,2,3);
+is_deeply($read,  ['aaa','bbb', 'ccc'], "write  col from  cell B1");
    $sheet_h->write(2,1, ['test1','test2','test3']);
 is_deeply($sheet_h->read(2,1,4,1),  ['test1','test2','test3'], "write data to a Range");
    $sheet_h->write(2,1, [

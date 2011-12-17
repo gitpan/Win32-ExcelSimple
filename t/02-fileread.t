@@ -14,5 +14,6 @@ is($sheet_h->get_last_col(), 7, "read last col");
 is($sheet_h->get_last_row(), 5, "read last row");
 is($sheet_h->read_cell(2,1),  1, "read data from cell B1");
 is_deeply($sheet_h->read(2,1,4,1),  [1,2,3], "read data from a Range");
+is_deeply($sheet_h->read(2,1,2,4), [1,1,1,1], "read data from a range");
 done_testing;
 
