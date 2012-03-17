@@ -2,6 +2,7 @@ package Win32::ExcelSimple;
 use warnings;
 use strict;
 use Try::Tiny;
+use Data::Dumper;
 use Win32::OLE qw(in with);
 use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
@@ -14,7 +15,7 @@ Please Note this module is based on CELL address.
 you may use cr2cell, or cell2cr funcs to translate address easily. 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
@@ -22,7 +23,7 @@ use Exporter;
 our @ISA       = qw( Exporter );
 our @EXPORT    = qw( cell2cr cr2cell );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 sub new {
 	my ($class_name, $file_name) = @_;
     
@@ -120,11 +121,14 @@ sub read_cell{
 sub write_cell{
     my ($sheet_h, $x, $y, $data) = @_;
 	my $address = Win32::ExcelSimple::cr2cell($x,$y);
+	$data = '' unless defined $data;
 	return ${$sheet_h}->Range($address)->{Value} = $data;
 
 }
 sub write_row{
 	my ($sheet_h, $x1,$y1, $data) = @_;
+	return $sheet_h->write_cell($x1, $y1, $data) if ref $data ne ref [];
+	return $sheet_h->write_cell($x1, $y1, '')    unless @$data;
 	my  $x2 = $x1+ $#{$data};
 	my  $y2 = $y1;
 	my $address = Win32::ExcelSimple::cr2cell($x1,$y1) . ':' . Win32::ExcelSimple::cr2cell($x2, $y2);
@@ -133,9 +137,9 @@ sub write_row{
 
 sub write_col{
 	my ($sheet_h, $x1,$y1, $data) = @_;
-	
+	return $sheet_h->write_cell($x1, $y1, $data) if ref $data ne ref [];
 	for (@{$data}){
-	$$sheet_h->Cells($y1, $x1)->{Value} = $_;
+	$sheet_h->write_row($x1, $y1, $_);
 	$y1++;
 }
 }

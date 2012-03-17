@@ -1,3 +1,5 @@
+use lib 'inc';
+use Devel::AssertOS qw[MSWin32];
 
 use strict;
 use warnings;
@@ -9,20 +11,20 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'a wrap for excel',
-  'AUTHOR' => 'xiaoyafeng <xyf.xiao@gmail.com>',
-  'BUILD_REQUIRES' => {},
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.30'
+  "ABSTRACT" => "a wrap for excel\r",
+  "AUTHOR" => "xiaoyafeng <xyf.xiao\@gmail.com>",
+  "BUILD_REQUIRES" => {},
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'Win32-ExcelSimple',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Win32::ExcelSimple',
-  'PREREQ_PM' => {},
-  'VERSION' => '0.4',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "DISTNAME" => "Win32-ExcelSimple",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Win32::ExcelSimple",
+  "PREREQ_PM" => {},
+  "VERSION" => "0.51",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 
