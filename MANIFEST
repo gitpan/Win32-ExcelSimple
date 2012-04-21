@@ -6,6 +6,7 @@ Makefile.PL
 README
 dist.ini
 'inc\\Devel\\AssertOS.pm'
+'inc\\Devel\\AssertOS\\Cygwin.pm'
 'inc\\Devel\\AssertOS\\MSWin32.pm'
 'inc\\Devel\\CheckOS.pm'
 lib/Win32/ExcelSimple.pm

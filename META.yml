@@ -17,4 +17,4 @@ no_index:
     - inc
 requires:
   Win32::OLE: 0.17
-version: 0.52
+version: 0.53

@@ -16,12 +16,13 @@ use Spreadsheet::Read;   #use cr2cell, cell2cr
 Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
 
 =head1 Description
+
 Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file etc.
 Note: this module is based on CELL address. You might need to use cr2cell or cell2cr to translate address. 
 
 =head1 VERSION
 
-Version 0.052
+Version 0.053
 
 =cut
 
@@ -29,7 +30,7 @@ use Exporter;
 our @ISA       = qw( Exporter );
 our @EXPORT    = qw( cell2cr cr2cell );
 
-our $VERSION = '0.052';
+our $VERSION = '0.053';
 sub new {
 	my ($class_name, $file_name) = @_;
     

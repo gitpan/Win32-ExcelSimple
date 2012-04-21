@@ -1,5 +1,5 @@
 use lib 'inc';
-use Devel::AssertOS qw[MSWin32];
+use Devel::AssertOS qw[MSWin32 Cygwin];
 
 use strict;
 use warnings;
@@ -24,7 +24,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Win32::OLE" => "0.17"
   },
-  "VERSION" => "0.52",
+  "VERSION" => "0.53",
   "test" => {
     "TESTS" => "t/*.t"
   }
