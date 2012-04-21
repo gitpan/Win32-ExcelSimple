@@ -8,14 +8,20 @@ use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
 use Win32::OLE::NLS qw(:LOCALE :DATE);
 use Spreadsheet::Read;   #use cr2cell, cell2cr
-# ABSTRACT: a wrap for excel
+
+# ABSTRACT: a wrap of Win32::OLE excel
+
 =head1 NAME
-Win32::ExcelSimple - new Win32::ExcelSimple!
-Please Note this module is based on CELL address.
-you may use cr2cell, or cell2cr funcs to translate address easily. 
+
+Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
+
+=head1 Description
+Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file etc.
+Note: this module is based on CELL address. You might need to use cr2cell or cell2cr to translate address. 
+
 =head1 VERSION
 
-Version 0.05
+Version 0.052
 
 =cut
 
@@ -23,7 +29,7 @@ use Exporter;
 our @ISA       = qw( Exporter );
 our @EXPORT    = qw( cell2cr cr2cell );
 
-our $VERSION = '0.05';
+our $VERSION = '0.052';
 sub new {
 	my ($class_name, $file_name) = @_;
     
@@ -176,6 +182,7 @@ my $y = [$self->get_last_row(), $self->get_last_col()];
 $self->cell_walk($x, $y, $callback);
 
 }
+
 =head1 SYNOPSIS
 
 Quick summary of what the module does.
@@ -186,26 +193,14 @@ Perhaps a little code snippet.
 
     my $foo = Win32::ExcelSimple->new();
     ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 transpose_array
-
-
-=cut
-
+	see test files for details
 
 
 
 
 =head1 AUTHOR
 
-Andy Xiao, C<< <andy.xiao at gmail.com> >>
+Andy Xiao, C<< <andy.xiao at cpan.org> >>
 
 =head1 BUGS
 
@@ -245,13 +240,9 @@ L<http://search.cpan.org/dist/Win32-ExcelSimple/>
 
 =back
 
-
-=head1 ACKNOWLEDGEMENTS
-
-
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2011 Andy Xiao.
+Copyright 2011 2012 Andy Xiao.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
