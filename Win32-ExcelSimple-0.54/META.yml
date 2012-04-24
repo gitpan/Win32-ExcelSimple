@@ -16,5 +16,7 @@ no_index:
   directory:
     - inc
 requires:
+  Spreadsheet::Read: 0
+  Try::Tiny: 0
   Win32::OLE: 0.17
-version: 0.53
+version: 0.54

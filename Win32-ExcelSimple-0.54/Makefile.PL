@@ -8,8 +8,9 @@ use warnings;
 
 use ExtUtils::MakeMaker 6.30;
 
-
-
+use Win32::OLE;
+my $Excel = Win32::OLE->GetActiveObject('Excel.Application') || Win32::OLE->new( 'Excel.Application', 'Quit' );
+die "install excel first" unless $Excel;
 my %WriteMakefileArgs = (
   "ABSTRACT" => "a wrap of Win32::OLE excel\r",
   "AUTHOR" => "xiaoyafeng <xyf.xiao\@gmail.com>",
@@ -22,9 +23,11 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Win32::ExcelSimple",
   "PREREQ_PM" => {
+    "Spreadsheet::Read" => 0,
+    "Try::Tiny" => 0,
     "Win32::OLE" => "0.17"
   },
-  "VERSION" => "0.53",
+  "VERSION" => "0.54",
   "test" => {
     "TESTS" => "t/*.t"
   }
