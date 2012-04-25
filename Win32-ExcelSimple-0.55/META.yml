@@ -19,4 +19,4 @@ requires:
   Spreadsheet::Read: 0
   Try::Tiny: 0
   Win32::OLE: 0.17
-version: 0.54
+version: 0.55
