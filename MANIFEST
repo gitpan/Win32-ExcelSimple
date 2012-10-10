@@ -16,4 +16,4 @@ t/02-fileread.t
 t/03-filewrite.t
 t/release-check-changes.t
 t/release-pod-syntax.t
-t/test.xls
+t/test.xlsx

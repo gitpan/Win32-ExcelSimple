@@ -13,7 +13,14 @@ use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
   "ABSTRACT" => "a wrap of Win32::OLE excel\r",
   "AUTHOR" => "xiaoyafeng <xyf.xiao\@gmail.com>",
-  "BUILD_REQUIRES" => {},
+  "BUILD_REQUIRES" => {
+    "Data::Dumper" => 0,
+    "File::Basename" => 0,
+    "File::Spec::Functions" => 0,
+    "Test::Deep" => 0,
+    "Test::Harness" => 0,
+    "Test::More" => 0
+  },
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
@@ -22,11 +29,17 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Win32::ExcelSimple",
   "PREREQ_PM" => {
+    "Exporter" => 0,
     "Spreadsheet::Read" => 0,
     "Try::Tiny" => 0,
-    "Win32::OLE" => "0.17"
+    "Win32::OLE" => 0,
+    "Win32::OLE::Const" => 0,
+    "Win32::OLE::NLS" => 0,
+    "Win32::OLE::Variant" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  "VERSION" => "0.55",
+  "VERSION" => "0.56",
   "test" => {
     "TESTS" => "t/*.t"
   }

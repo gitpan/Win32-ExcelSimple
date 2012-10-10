@@ -1,11 +1,10 @@
 package Win32::ExcelSimple;
 {
-  $Win32::ExcelSimple::VERSION = '0.55';
+  $Win32::ExcelSimple::VERSION = '0.56';
 }
 use warnings;
 use strict;
 use Try::Tiny;
-use Data::Dumper;
 use Win32::OLE qw(in with);
 use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
@@ -14,20 +13,6 @@ use Spreadsheet::Read;   #use cr2cell, cell2cr
 
 # ABSTRACT: a wrap of Win32::OLE excel
 
-=head1 NAME
-
-Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
-
-=head1 DESCRIPTION
-
-Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file etc.
-Note: this module is based on CELL address. You might need to use cr2cell or cell2cr to translate address. 
-
-=head1 VERSION
-
-Version 0.55
-
-=cut
 
 use Exporter;
 our @ISA       = qw( Exporter );
@@ -35,9 +20,11 @@ our @EXPORT    = qw( cell2cr cr2cell );
 
 sub new {
 	my ($class_name, $file_name) = @_;
-    
-		my $Excel = Win32::OLE->GetActiveObject('Excel.Application')
-    	  // Win32::OLE->new( 'Excel.Application', 'Quit' );
+		defined $file_name or die "Error: no filename given";
+    	-f $file_name or die "Error: filename '$file_name' doesn't exist";
+   	 
+ 	my $Excel = Win32::OLE->new('Excel.Application', sub {$_[0]->Quit;}) or die "Oops, cannot start Excel";
+	
     	$Excel->{DisplayAlerts} = 0;
   		$Win32::OLE::Warn = 2;   
   		my $book = $Excel->Workbooks->Open($file_name);
@@ -86,7 +73,7 @@ sub DESTROY{
 }
 package Win32::ExcelSimple::Sheet;
 {
-  $Win32::ExcelSimple::Sheet::VERSION = '0.55';
+  $Win32::ExcelSimple::Sheet::VERSION = '0.56';
 }
 use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
@@ -189,6 +176,20 @@ $self->cell_walk($x, $y, $callback);
 
 }
 
+1; # End of Win32::ExcelSimple
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Win32::ExcelSimple - a wrap of Win32::OLE excel
+
+=head1 VERSION
+
+version 0.56
+
 =head1 SYNOPSIS
 
 Quick summary of what the module does.
@@ -201,8 +202,18 @@ Perhaps a little code snippet.
     ...
 	see test files for details
 
+=head1 DESCRIPTION
 
+Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file etc.
+Note: this module is based on CELL address. You might need to use cr2cell or cell2cr to translate address. 
 
+=head1 NAME
+
+Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
+
+=head1 VERSION
+
+Version 0.55
 
 =head1 AUTHOR
 
@@ -214,15 +225,11 @@ Please report any bugs or feature requests to C<bug-win32-excelsimple at rt.cpan
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Win32-ExcelSimple>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Win32::ExcelSimple
-
 
 You can also look for information at:
 
@@ -256,6 +263,15 @@ by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
 
+=head1 AUTHOR
+
+xiaoyafeng <xyf.xiao@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by xiaoyafeng.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-1; # End of Win32::ExcelSimple
