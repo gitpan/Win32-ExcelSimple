@@ -1,6 +1,6 @@
 package Win32::ExcelSimple;
 {
-  $Win32::ExcelSimple::VERSION = '0.56';
+  $Win32::ExcelSimple::VERSION = '0.58';
 }
 use warnings;
 use strict;
@@ -69,17 +69,18 @@ sub DESTROY{
 	$self->close_excel();
 #	print "save all and exit!!!\n";
 
-
 }
 package Win32::ExcelSimple::Sheet;
 {
-  $Win32::ExcelSimple::Sheet::VERSION = '0.56';
+  $Win32::ExcelSimple::Sheet::VERSION = '0.58';
 }
 use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
 use Win32::OLE::NLS qw(:LOCALE :DATE);
 sub read{
 	my ($sheet_h, $x1,$y1, $x2, $y2) = @_;
+	return undef unless(defined($x1) or defined($x2) or defined($y1) or defined($y2));  
+	return undef unless($x1 =~ /^\d+$/ or $y1 =~ /^\d+$/ or $x2 =~ /^\d+$/);
 	if ($x1 == $x2 and $y1 == $y2) { 
 		return $$sheet_h->Cells($y1, $x1)->{Value};
 	}
@@ -115,22 +116,27 @@ sub get_last_col{
 
 sub read_cell{
 	my ($sheet_h, $x, $y) = @_;
+	return undef unless(defined($x) or defined($x));  
+	  return undef unless $x =~ /^\d+$/;
+	  return undef unless $y =~ /^\d+$/;
 	return $$sheet_h->Cells($y, $x)->{Value};
 }
 sub write_cell{
     my ($sheet_h, $x, $y, $data) = @_;
 	my $address = Win32::ExcelSimple::cr2cell($x,$y);
-	$data = '' unless defined $data;
+	return undef unless $address;
+	$data = [] unless defined $data;
 	return ${$sheet_h}->Range($address)->{Value} = $data;
 
 }
 sub write_row{
 	my ($sheet_h, $x1,$y1, $data) = @_;
 	return $sheet_h->write_cell($x1, $y1, $data) if ref $data ne ref [];
-	return $sheet_h->write_cell($x1, $y1, '')    unless @$data;
+	return $sheet_h->write_cell($x1, $y1, undef)    unless @$data;
 	my  $x2 = $x1+ $#{$data};
 	my  $y2 = $y1;
 	my $address = Win32::ExcelSimple::cr2cell($x1,$y1) . ':' . Win32::ExcelSimple::cr2cell($x2, $y2);
+	return undef unless $address;
 	$$sheet_h->Range($address)->{Value} = [$data];
 }
 
@@ -188,7 +194,7 @@ Win32::ExcelSimple - a wrap of Win32::OLE excel
 
 =head1 VERSION
 
-version 0.56
+version 0.58
 
 =head1 SYNOPSIS
 
