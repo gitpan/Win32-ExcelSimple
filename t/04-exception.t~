@@ -11,7 +11,7 @@ my $path = dirname(__FILE__);
 my $abs_file = catfile($path, 'test.xlsx');
 
 SKIP: {
-	  eval{ Win32::ExcelSimple->new($abs_file); };
+	  eval{ Win32::ExcelSimple->new($abs_file); }
 	  skip "install excel first", 2 if $@;
 my $es = Win32::ExcelSimple->new($abs_file);
 my $sheet_h = $es->open_sheet('Report');

@@ -1,7 +1,4 @@
 package Win32::ExcelSimple;
-{
-  $Win32::ExcelSimple::VERSION = '0.59';
-}
 use warnings;
 use strict;
 use Try::Tiny;
@@ -13,6 +10,20 @@ use Spreadsheet::Read;   #use cr2cell, cell2cr
 
 # ABSTRACT: a wrap of Win32::OLE excel
 
+=head1 NAME
+
+Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
+
+=head1 DESCRIPTION
+
+Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file.
+Note: this module is based on CELL address. You need to use cr2cell or cell2cr to translate number address. 
+
+=head1 VERSION
+
+Version 0.59
+
+=cut
 
 use Exporter;
 our @ISA       = qw( Exporter );
@@ -71,9 +82,6 @@ sub DESTROY{
 
 }
 package Win32::ExcelSimple::Sheet;
-{
-  $Win32::ExcelSimple::Sheet::VERSION = '0.59';
-}
 use Win32::OLE::Const 'Microsoft Excel';
 use Win32::OLE::Variant;
 use Win32::OLE::NLS qw(:LOCALE :DATE);
@@ -182,20 +190,6 @@ $self->cell_walk($x, $y, $callback);
 
 }
 
-1; # End of Win32::ExcelSimple
-
-__END__
-
-=pod
-
-=head1 NAME
-
-Win32::ExcelSimple - a wrap of Win32::OLE excel
-
-=head1 VERSION
-
-version 0.59
-
 =head1 SYNOPSIS
 
 Quick summary of what the module does.
@@ -208,18 +202,8 @@ Perhaps a little code snippet.
     ...
 	see test files for details
 
-=head1 DESCRIPTION
 
-Win32::ExcelSimple is a thin wrap of Win32::OLE Excel. The behavior is much like SpreadSheet::Write but with ability of modifying existing Excel file.
-Note: this module is based on CELL address. You need to use cr2cell or cell2cr to translate number address. 
 
-=head1 NAME
-
-Win32::ExcelSimple -  a easier way to use Microsoft Excel simplier
-
-=head1 VERSION
-
-Version 0.59
 
 =head1 AUTHOR
 
@@ -231,11 +215,15 @@ Please report any bugs or feature requests to C<bug-win32-excelsimple at rt.cpan
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Win32-ExcelSimple>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
+
+
+
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Win32::ExcelSimple
+
 
 You can also look for information at:
 
@@ -269,15 +257,6 @@ by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
 
-=head1 AUTHOR
-
-xiaoyafeng <xyf.xiao@gmail.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2012 by xiaoyafeng.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
 
 =cut
+1; # End of Win32::ExcelSimple
